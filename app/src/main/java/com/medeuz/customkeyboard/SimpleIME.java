@@ -8,16 +8,19 @@ import android.media.AudioManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
 
 
 public class SimpleIME extends InputMethodService implements KeyboardView.OnKeyboardActionListener {
 
+    public static final String TAG = "KEYBOARD";
+
+    private static final String LOCALE_EN = "EN";
+    private static final String LOCALE_RU = "RU";
+
     private KeyboardView mKeyboardView;
     private Keyboard mKeyboard;
-    private String mCurrentLocale = "EN";
+    private String mCurrentLocale = LOCALE_RU;
     private boolean isCapsOn = true;
 
     @SuppressLint("InflateParams")
@@ -28,6 +31,7 @@ public class SimpleIME extends InputMethodService implements KeyboardView.OnKeyb
         mKeyboard.setShifted(isCapsOn);
         mKeyboardView.setKeyboard(mKeyboard);
         mKeyboardView.setOnKeyboardActionListener(this);
+
         return mKeyboardView;
     }
 
@@ -36,9 +40,10 @@ public class SimpleIME extends InputMethodService implements KeyboardView.OnKeyb
      * @return localized keyboard
      */
     private Keyboard getKeyboard(String locale) {
-        switch (locale) {
-            default:
-                return new Keyboard(this, R.xml.keys_definition_ru);
+        if (locale.equals(LOCALE_RU)) {
+            return new Keyboard(this, R.xml.keys_definition_ru);
+        } else {
+            return new Keyboard(this, R.xml.keys_definition_en);
         }
     }
 
@@ -67,17 +72,17 @@ public class SimpleIME extends InputMethodService implements KeyboardView.OnKeyb
 
     @Override
     public void onPress(int i) {
-        Log.d("MY_KEYBOARD", "onPress " + i);
+        Log.d(TAG, "onPress " + i);
     }
 
     @Override
     public void onRelease(int i) {
-        Log.d("MY_KEYBOARD", "onRelease " + i);
+        Log.d(TAG, "onRelease " + i);
     }
 
     @Override
     public void onKey(int primaryCode, int[] ints) {
-        Log.d("MY_KEYBOARD", "onKey " + ints.length);
+        Log.d(TAG, "onKey " + ints.length);
         InputConnection ic = getCurrentInputConnection();
         playClick(primaryCode);
         switch (primaryCode) {
@@ -97,13 +102,14 @@ public class SimpleIME extends InputMethodService implements KeyboardView.OnKeyb
                 if (Character.isLetter(code) && isCapsOn) {
                     code = Character.toUpperCase(code);
                 }
+
                 ic.commitText(String.valueOf(code), 1);
         }
     }
 
     @Override
     public void onText(CharSequence charSequence) {
-        Log.d("MY_KEYBOARD", "onText ");
+        Log.d(TAG, "onText ");
     }
 
     @Override

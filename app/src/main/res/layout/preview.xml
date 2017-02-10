@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:background="@color/key_preview_background"
     android:textStyle="bold"
-    android:textAllCaps="true"
-    android:textSize="30sp" />
+    android:textSize="25sp" />
+
+    <!--background is important parameter-->
