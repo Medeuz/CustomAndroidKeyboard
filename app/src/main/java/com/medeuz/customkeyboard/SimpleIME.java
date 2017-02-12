@@ -9,24 +9,24 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputConnection;
+import android.widget.Toast;
 
 
 public class SimpleIME extends InputMethodService implements KeyboardView.OnKeyboardActionListener {
 
     public static final String TAG = "KEYBOARD";
 
-    private static final String LOCALE_EN = "EN";
-    private static final String LOCALE_RU = "RU";
-
     private KeyboardView mKeyboardView;
     private Keyboard mKeyboard;
-    private String mCurrentLocale = LOCALE_RU;
+    private Constants.KEYS_TYPE mCurrentLocale;
+    private Constants.KEYS_TYPE mPreviouseLocale;
     private boolean isCapsOn = true;
 
     @SuppressLint("InflateParams")
     @Override
     public View onCreateInputView() {
         mKeyboardView = (KeyboardView) getLayoutInflater().inflate(R.layout.keyboard, null);
+        mCurrentLocale = Constants.KEYS_TYPE.RUSSIAN;
         mKeyboard = getKeyboard(mCurrentLocale);
         mKeyboard.setShifted(isCapsOn);
         mKeyboardView.setKeyboard(mKeyboard);
@@ -36,14 +36,19 @@ public class SimpleIME extends InputMethodService implements KeyboardView.OnKeyb
     }
 
     /**
-     * @param locale - country code
+     * @param locale - keys of keyboard
      * @return localized keyboard
      */
-    private Keyboard getKeyboard(String locale) {
-        if (locale.equals(LOCALE_RU)) {
-            return new Keyboard(this, R.xml.keys_definition_ru);
-        } else {
-            return new Keyboard(this, R.xml.keys_definition_en);
+    private Keyboard getKeyboard(Constants.KEYS_TYPE locale) {
+        switch (locale) {
+            case RUSSIAN:
+                return new Keyboard(this, R.xml.keys_definition_ru);
+            case ENGLISH:
+                return new Keyboard(this, R.xml.keys_definition_en);
+            case SYMBOLS:
+                return new Keyboard(this, R.xml.keys_definition_symbols);
+            default:
+                return new Keyboard(this, R.xml.keys_definition_ru);
         }
     }
 
@@ -55,11 +60,11 @@ public class SimpleIME extends InputMethodService implements KeyboardView.OnKeyb
     private void playClick(int keyCode) {
         AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);
         switch (keyCode) {
-            case 32:
+            case Constants.KeyCode.SPACE:
                 am.playSoundEffect(AudioManager.FX_KEYPRESS_SPACEBAR);
                 break;
             case Keyboard.KEYCODE_DONE:
-            case 10:
+            case Constants.KeyCode.RETURN:
                 am.playSoundEffect(AudioManager.FX_KEYPRESS_RETURN);
                 break;
             case Keyboard.KEYCODE_DELETE:
@@ -85,17 +90,19 @@ public class SimpleIME extends InputMethodService implements KeyboardView.OnKeyb
         Log.d(TAG, "onKey " + ints.length);
         InputConnection ic = getCurrentInputConnection();
         playClick(primaryCode);
+
         switch (primaryCode) {
             case Keyboard.KEYCODE_DELETE:
                 ic.deleteSurroundingText(1, 0);
                 break;
             case Keyboard.KEYCODE_SHIFT:
-                isCapsOn = !isCapsOn;
-                mKeyboard.setShifted(isCapsOn);
-                mKeyboardView.invalidateAllKeys();
+                handleShift();
                 break;
             case Keyboard.KEYCODE_DONE:
                 ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
+                break;
+            case Keyboard.KEYCODE_MODE_CHANGE:
+                handleSymbolsSwitch();
                 break;
             default:
                 char code = (char) primaryCode;
@@ -114,21 +121,42 @@ public class SimpleIME extends InputMethodService implements KeyboardView.OnKeyb
 
     @Override
     public void swipeLeft() {
-
+        Log.d(TAG, "swipeLeft ");
     }
 
     @Override
     public void swipeRight() {
-
+        Log.d(TAG, "swipeRight ");
     }
 
     @Override
     public void swipeDown() {
-
+        Log.d(TAG, "swipeDown ");
     }
 
     @Override
     public void swipeUp() {
-
+        Log.d(TAG, "swipeUp ");
     }
+
+    private void handleSymbolsSwitch() {
+        if (mCurrentLocale != Constants.KEYS_TYPE.SYMBOLS) {
+            mPreviouseLocale = mCurrentLocale;
+            mCurrentLocale = Constants.KEYS_TYPE.SYMBOLS;
+            mKeyboard = getKeyboard(Constants.KEYS_TYPE.SYMBOLS);
+            mKeyboardView.setKeyboard(mKeyboard);
+        } else {
+            mKeyboard = getKeyboard(mPreviouseLocale);
+            mKeyboardView.setKeyboard(mKeyboard);
+            mCurrentLocale = mPreviouseLocale;
+        }
+        mKeyboardView.invalidateAllKeys();
+    }
+
+    private void handleShift() {
+        isCapsOn = !isCapsOn;
+        mKeyboard.setShifted(isCapsOn);
+        mKeyboardView.invalidateAllKeys();
+    }
+
 }

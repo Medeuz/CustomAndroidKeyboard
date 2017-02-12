@@ -3,7 +3,7 @@
     android:keyWidth="8%p"
     android:horizontalGap="5px"
     android:verticalGap="5px"
-    android:keyHeight="45dp">
+    android:keyHeight="40dp">
 
     <Row>
         <Key android:codes="1081" android:keyLabel="й" android:keyEdgeFlags="left" />
@@ -20,17 +20,17 @@
         <Key android:codes="1098" android:keyLabel="ъ" android:keyEdgeFlags="right" />
     </Row>
     <Row>
-        <Key android:codes="1092" android:keyLabel="ф" android:keyEdgeFlags="left" />
-        <Key android:codes="1099" android:keyLabel="ы" />
-        <Key android:codes="1074" android:keyLabel="в" />
-        <Key android:codes="1072" android:keyLabel="а" />
-        <Key android:codes="1087" android:keyLabel="п" />
-        <Key android:codes="1088" android:keyLabel="р" />
-        <Key android:codes="1086" android:keyLabel="о" />
-        <Key android:codes="1083" android:keyLabel="л" />
-        <Key android:codes="1076" android:keyLabel="д" />
-        <Key android:codes="1078" android:keyLabel="ж" />
-        <Key android:codes="1101" android:keyLabel="э" android:keyEdgeFlags="right" />
+        <Key android:codes="1092" android:keyLabel="ф" android:keyWidth="9%p" android:keyEdgeFlags="left" />
+        <Key android:codes="1099" android:keyLabel="ы" android:keyWidth="9%p" />
+        <Key android:codes="1074" android:keyLabel="в" android:keyWidth="9%p" />
+        <Key android:codes="1072" android:keyLabel="а" android:keyWidth="9%p" />
+        <Key android:codes="1087" android:keyLabel="п" android:keyWidth="9%p" />
+        <Key android:codes="1088" android:keyLabel="р" android:keyWidth="9%p" />
+        <Key android:codes="1086" android:keyLabel="о" android:keyWidth="9%p" />
+        <Key android:codes="1083" android:keyLabel="л" android:keyWidth="9%p" />
+        <Key android:codes="1076" android:keyLabel="д" android:keyWidth="9%p" />
+        <Key android:codes="1078" android:keyLabel="ж" android:keyWidth="9%p" />
+        <Key android:codes="1101" android:keyLabel="э" android:keyWidth="9%p" android:keyEdgeFlags="right" />
     </Row>
     <Row>
         <Key android:codes="-1" android:keyIcon="@drawable/ic_keyboard_capslock_white_24dp"
@@ -48,9 +48,9 @@
             android:isRepeatable="true" android:keyEdgeFlags="right" android:keyWidth="13%p" />
     </Row>
     <Row android:rowEdgeFlags="bottom">
-        <Key android:codes="44" android:keyLabel="\?123"  android:keyWidth="20%p" android:keyEdgeFlags="left"/>
+        <Key android:codes="-2" android:keyLabel="\?123"  android:keyWidth="20%p" android:keyEdgeFlags="left"/>
         <Key android:codes="44" android:keyLabel=","/>
-        <Key android:codes="32" android:keyLabel="SPACE" android:keyWidth="40%p" android:isRepeatable="true"/>
+        <Key android:codes="32" android:keyLabel=" " android:keyWidth="40%p" android:isRepeatable="true"/>
         <Key android:codes="46" android:keyLabel="." />
         <Key android:codes="-4" android:keyIcon="@drawable/ic_check_white_24dp"
             android:keyWidth="20%p" android:keyEdgeFlags="right"/>
