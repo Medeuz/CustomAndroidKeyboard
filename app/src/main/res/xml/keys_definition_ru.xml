@@ -51,9 +51,10 @@
         <Key android:codes="-6" android:keyLabel="\?123" android:keyWidth="16%p" android:keyEdgeFlags="left"/>
         <Key android:codes="-2" android:keyIcon="@drawable/ic_language_white_24dp" />
         <Key android:codes="44" android:keyLabel=","/>
-        <Key android:codes="32" android:keyLabel=" " android:keyWidth="36%p" android:isRepeatable="true"/>
+        <Key android:codes="32" android:keyLabel=" " android:keyWidth="29%p" android:isRepeatable="true"/>
+        <Key android:codes="1105" android:keyLabel="ё" />
         <Key android:codes="46" android:keyLabel="." />
-        <Key android:codes="-4" android:keyIcon="@drawable/ic_check_white_24dp"
+        <Key android:codes="-4" android:keyIcon="@drawable/ic_keyboard_return_white_24dp"
             android:keyWidth="19%p" android:keyEdgeFlags="right"/>
     </Row>
 

@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:background="@color/key_preview_background"
+    android:textColor="@color/key_preview_text_color"
     android:textStyle="bold"
     android:textSize="25sp" />
 

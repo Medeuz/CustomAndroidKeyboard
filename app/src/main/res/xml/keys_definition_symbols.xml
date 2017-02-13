@@ -47,7 +47,7 @@
         <Key android:codes="44" android:keyLabel=","/>
         <Key android:codes="32" android:keyLabel=" " android:keyWidth="40%p" android:isRepeatable="true"/>
         <Key android:codes="46" android:keyLabel="." />
-        <Key android:codes="-4" android:keyIcon="@drawable/ic_check_white_24dp"
+        <Key android:codes="-4" android:keyIcon="@drawable/ic_keyboard_return_white_24dp"
             android:keyWidth="20%p" android:keyEdgeFlags="right"/>
     </Row>
 

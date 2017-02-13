@@ -11,7 +11,8 @@ import android.view.View;
 import android.view.inputmethod.InputConnection;
 
 
-public class SimpleIME extends InputMethodService implements KeyboardView.OnKeyboardActionListener {
+public class SimpleIME extends InputMethodService
+        implements KeyboardView.OnKeyboardActionListener {
 
     public static final String TAG = "KEYBOARD";
 
@@ -63,6 +64,8 @@ public class SimpleIME extends InputMethodService implements KeyboardView.OnKeyb
                 am.playSoundEffect(AudioManager.FX_KEYPRESS_SPACEBAR);
                 break;
             case Keyboard.KEYCODE_DONE:
+                am.playSoundEffect(AudioManager.FX_KEYPRESS_RETURN);
+                break;
             case Constants.KeyCode.RETURN:
                 am.playSoundEffect(AudioManager.FX_KEYPRESS_RETURN);
                 break;
@@ -71,6 +74,7 @@ public class SimpleIME extends InputMethodService implements KeyboardView.OnKeyb
                 break;
             default:
                 am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD);
+                break;
         }
     }
 
@@ -86,7 +90,7 @@ public class SimpleIME extends InputMethodService implements KeyboardView.OnKeyb
 
     @Override
     public void onKey(int primaryCode, int[] ints) {
-        Log.d(TAG, "onKey " + ints.length);
+        Log.d(TAG, "onKey " + primaryCode);
         InputConnection ic = getCurrentInputConnection();
         playClick(primaryCode);
 
@@ -113,6 +117,7 @@ public class SimpleIME extends InputMethodService implements KeyboardView.OnKeyb
                 }
 
                 ic.commitText(String.valueOf(code), 1);
+                break;
         }
     }
 
@@ -143,16 +148,16 @@ public class SimpleIME extends InputMethodService implements KeyboardView.OnKeyb
 
     private void handleSymbolsSwitch() {
         if (mCurrentLocale != Constants.KEYS_TYPE.SYMBOLS) {
+            mKeyboard = getKeyboard(Constants.KEYS_TYPE.SYMBOLS);
             mPreviousLocale = mCurrentLocale;
             mCurrentLocale = Constants.KEYS_TYPE.SYMBOLS;
-            mKeyboard = getKeyboard(Constants.KEYS_TYPE.SYMBOLS);
-            mKeyboardView.setKeyboard(mKeyboard);
         } else {
             mKeyboard = getKeyboard(mPreviousLocale);
-            mKeyboardView.setKeyboard(mKeyboard);
             mCurrentLocale = mPreviousLocale;
             mKeyboard.setShifted(isCapsOn);
         }
+        mKeyboardView.setKeyboard(mKeyboard);
+        mKeyboardView.invalidateAllKeys();
     }
 
     private void handleShift() {
@@ -172,6 +177,7 @@ public class SimpleIME extends InputMethodService implements KeyboardView.OnKeyb
 
         mKeyboardView.setKeyboard(mKeyboard);
         mKeyboard.setShifted(isCapsOn);
+        mKeyboardView.invalidateAllKeys();
     }
 
 }

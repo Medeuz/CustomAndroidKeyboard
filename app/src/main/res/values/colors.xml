@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="key_preview_background">@android:color/darker_gray</color>
+    <color name="key_preview_text_color">@android:color/black</color>
 </resources>
