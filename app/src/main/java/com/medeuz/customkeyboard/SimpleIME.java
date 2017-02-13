@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputConnection;
-import android.widget.Toast;
 
 
 public class SimpleIME extends InputMethodService implements KeyboardView.OnKeyboardActionListener {
